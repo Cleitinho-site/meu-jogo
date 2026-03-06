@@ -1,36 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-<title>Meu Jogo</title>
+<meta charset="UTF-8">
+<title>Site Acessível</title>
 <style>
 body{
-text-align:center;
-font-family:Arial;
-background:#111;
+font-family: Arial;
+font-size: 22px;
+background:#000;
 color:white;
-}
-button{
+text-align:center;
 padding:20px;
-font-size:20px;
+}
+
+button{
+font-size:24px;
+padding:20px;
+margin:15px;
+width:90%;
 }
 </style>
 </head>
 
 <body>
 
-<h1>Jogo de Clique</h1>
-<p>Clique no botão e ganhe pontos</p>
+<h1>Site para Pessoas com Deficiência Visual</h1>
 
-<button onclick="clicar()">CLIQUE</button>
+<p>Este site foi feito para ser usado com leitores de tela como o TalkBack.</p>
 
-<h2>Pontos: <span id="pontos">0</span></h2>
+<button onclick="fala('Deus te abençoe hoje e sempre.')">
+Ouvir mensagem do dia
+</button>
+
+<button onclick="fala('Você é forte e capaz de conquistar seus sonhos.')">
+Ouvir mensagem motivacional
+</button>
+
+<button onclick="fala('Obrigado por visitar este site acessível.')">
+Sobre o site
+</button>
 
 <script>
-let pontos = 0;
-
-function clicar(){
-pontos++;
-document.getElementById("pontos").innerText = pontos;
+function fala(texto){
+let voz = new SpeechSynthesisUtterance(texto);
+voz.lang = "pt-BR";
+speechSynthesis.speak(voz);
 }
 </script>
 
