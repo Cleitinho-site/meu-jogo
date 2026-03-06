@@ -2,51 +2,185 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Site Acessível</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Acessível</title>
+
 <style>
+
 body{
-font-family: Arial;
-font-size: 22px;
+font-family: Arial, sans-serif;
 background:#000;
 color:white;
-text-align:center;
+font-size:24px;
 padding:20px;
+}
+
+h1{
+font-size:34px;
 }
 
 button{
 font-size:24px;
 padding:20px;
-margin:15px;
-width:90%;
+margin:15px 0;
+width:100%;
+border:none;
+border-radius:10px;
+background:#1e90ff;
+color:white;
 }
+
+button:focus{
+outline:4px solid yellow;
+}
+
+section{
+margin-top:40px;
+}
+
 </style>
+
 </head>
 
 <body>
 
-<h1>Site para Pessoas com Deficiência Visual</h1>
+<h1 tabindex="0">Portal Acessível para Deficientes Visuais</h1>
 
-<p>Este site foi feito para ser usado com leitores de tela como o TalkBack.</p>
+<p tabindex="0">
+Este site foi criado para funcionar com leitores de tela como o TalkBack.
+Todos os botões falam em voz alta.
+</p>
 
-<button onclick="fala('Deus te abençoe hoje e sempre.')">
+<section>
+
+<h2 tabindex="0">Mensagem do Dia</h2>
+
+<button onclick="falar('Deus te abençoe hoje e te dê força para vencer todas as batalhas.')">
 Ouvir mensagem do dia
 </button>
 
-<button onclick="fala('Você é forte e capaz de conquistar seus sonhos.')">
-Ouvir mensagem motivacional
+</section>
+
+<section>
+
+<h2 tabindex="0">Versículo do Dia</h2>
+
+<button onclick="falar('Tudo posso naquele que me fortalece. Filipenses 4:13')">
+Ouvir versículo
 </button>
 
-<button onclick="fala('Obrigado por visitar este site acessível.')">
-Sobre o site
-</button>
+</section>
+
+<section>
+
+<h2 tabindex="0">Assistente Inteligente</h2>
+
+<p tabindex="0">Você pode fazer perguntas simples.</p>
+
+<input id="pergunta" placeholder="Digite sua pergunta"
+style="font-size:24px;width:100%;padding:15px">
+
+<button onclick="responder()">Perguntar</button>
+
+</section>
+
+<section>
+
+<h2 tabindex="0">Falar com o Site</h2>
+
+<button onclick="ouvir()">Falar pergunta por voz</button>
+
+</section>
+
+<section>
+
+<h2 tabindex="0">Quiz Acessível</h2>
+
+<p tabindex="0">Pergunta:</p>
+
+<p id="quiz">Qual é a capital do Brasil?</p>
+
+<button onclick="verificar('a')">A - Rio de Janeiro</button>
+
+<button onclick="verificar('b')">B - Brasília</button>
+
+<button onclick="verificar('c')">C - São Paulo</button>
+
+</section>
 
 <script>
-function fala(texto){
-let voz = new SpeechSynthesisUtterance(texto);
-voz.lang = "pt-BR";
-speechSynthesis.speak(voz);
+
+function falar(texto){
+
+let msg = new SpeechSynthesisUtterance(texto);
+
+msg.lang = "pt-BR";
+
+speechSynthesis.speak(msg);
+
 }
+
+function responder(){
+
+let pergunta = document.getElementById("pergunta").value.toLowerCase();
+
+let resposta = "Desculpe, ainda não sei responder isso.";
+
+if(pergunta.includes("oi"))
+resposta = "Olá, seja bem vindo ao portal acessível.";
+
+if(pergunta.includes("deus"))
+resposta = "Deus é amor e está sempre com você.";
+
+if(pergunta.includes("quem criou"))
+resposta = "Este site foi criado para ajudar pessoas com deficiência visual.";
+
+if(pergunta.includes("hora"))
+resposta = "Agora são " + new Date().toLocaleTimeString();
+
+if(pergunta.includes("data"))
+resposta = "Hoje é " + new Date().toLocaleDateString();
+
+falar(resposta);
+
+}
+
+function verificar(resp){
+
+if(resp == "b"){
+
+falar("Resposta correta. Brasília é a capital do Brasil.");
+
+}else{
+
+falar("Resposta errada. Tente novamente.");
+
+}
+
+}
+
+function ouvir(){
+
+let rec = new webkitSpeechRecognition();
+
+rec.lang = "pt-BR";
+
+rec.start();
+
+rec.onresult = function(event){
+
+let texto = event.results[0][0].transcript;
+
+document.getElementById("pergunta").value = texto;
+
+responder();
+
+}
+
+}
+
 </script>
 
 </body>
+
 </html>
